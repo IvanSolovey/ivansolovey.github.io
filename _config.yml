@@ -43,10 +43,10 @@ defaults:
 # --- Giscus comments ---
 # Fill in after setting up at https://giscus.app
 giscus:
-  repo: ""          # e.g. "ivansolovey/ivansolovey.github.io"
-  repo_id: ""
-  category: "Comments"
-  category_id: ""
+  repo: "ivansolovey/ivansolovey.github.io"          # e.g. "ivansolovey/ivansolovey.github.io"
+  repo_id: "R_kgDOSf1DaQ"
+  category: "Announcements"
+  category_id: "DIC_kwDOSf1Dac4C9PFS"
 
 # --- Exclude from build ---
 exclude:

@@ -22,7 +22,7 @@ const fonts = [
   { name: 'Unbounded', weight: 700, data: woff('@fontsource/unbounded', 'files/unbounded-cyrillic-700-normal.woff') },
 ];
 
-async function generate(title, tag, outPath) {
+async function generate(title, tag, description, outPath) {
   const svg = await satori(
     {
       type: 'div',
@@ -49,7 +49,7 @@ async function generate(title, tag, outPath) {
                     children: 'про AI, менеджмент і особисту ефективність'
                   }
                 },
-                { type: 'div', props: { style: { flex: 1 } } },
+                { type: 'div', props: { style: { height: 80 } } },
                 ...(tag ? [{
                   type: 'div',
                   props: {
@@ -63,7 +63,14 @@ async function generate(title, tag, outPath) {
                     style: { fontFamily: 'IBM Plex Sans', fontWeight: 700, fontSize: 56, color: '#1A1A1A', lineHeight: 1.2 },
                     children: title
                   }
-                }
+                },
+                ...(description ? [{
+                  type: 'div',
+                  props: {
+                    style: { fontFamily: 'IBM Plex Sans', fontWeight: 400, fontSize: 20, color: '#6B6B6B', marginTop: 16, lineHeight: 1.4 },
+                    children: description.length > 100 ? description.slice(0, 100) + '…' : description
+                  }
+                }] : [])
               ]
             }
           },
@@ -94,6 +101,6 @@ for (const file of posts) {
   const outPath = path.join(OUTPUT_DIR, `${slug}.png`);
   if (fs.existsSync(outPath)) { console.log(`skip  ${slug}`); continue; }
   const { data } = matter(fs.readFileSync(path.join(POSTS_DIR, file), 'utf8'));
-  await generate(data.title, data.tags?.[0] ?? null, outPath);
+  await generate(data.title, data.tags?.[0] ?? null, data.excerpt ?? null, outPath);
   console.log(`gen   ${slug}`);
 }

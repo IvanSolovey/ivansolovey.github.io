@@ -46,7 +46,7 @@ async function generate(title, tag, description, outPath) {
                   type: 'div',
                   props: {
                     style: { fontFamily: 'IBM Plex Sans', fontWeight: 400, fontSize: 16, color: '#6B6B6B', marginTop: 8 },
-                    children: 'про AI, менеджмент і особисту ефективність'
+                    children: 'про менеджмент, особисту ефективність і трішки про AI'
                   }
                 },
                 { type: 'div', props: { style: { height: 80 } } },

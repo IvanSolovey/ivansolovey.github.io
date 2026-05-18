@@ -29,44 +29,48 @@
   <p>Новий запис на пошту. Без спаму, тільки коли є що сказати.</p>
   <form id="subscribe-form">
     <input type="email" name="email" placeholder="твоя пошта" aria-label="Електронна пошта" required>
+    {%- comment %}Honeypot: hidden from humans, bots fill it in{% endcomment %}
+    <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
     <button type="submit">Підписатися</button>
     <p class="subscribe-msg" aria-live="polite"></p>
   </form>
   <script>
     (function () {
+      var WEBAPP_URL = '{{ site.subscribe_webapp_url }}';
       var form = document.getElementById('subscribe-form');
       var msg  = form.querySelector('.subscribe-msg');
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var email = form.querySelector('[name="email"]').value;
-        var btn   = form.querySelector('button');
+        if (!WEBAPP_URL) { msg.textContent = 'Форма тимчасово недоступна.'; return; }
+        var btn = form.querySelector('button');
         btn.disabled = true;
-        msg.textContent = '';
-        var data = new FormData();
-        data.append('email', email);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://l.osd24.com/api/subscribe.php');
-        xhr.onload = function () {
+        msg.textContent = 'Надсилаємо…';
+        var params = new URLSearchParams({
+          action:  'subscribe',
+          email:   form.querySelector('[name="email"]').value,
+          website: form.querySelector('[name="website"]').value
+        });
+        fetch(WEBAPP_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body:    params.toString()
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
           btn.disabled = false;
-          try {
-            var res = JSON.parse(xhr.responseText);
-            if (res.ok) {
-              form.querySelector('[name="email"]').value = '';
-              msg.textContent = res.msg === 'already'
-                ? 'Цей email вже підписаний.'
-                : 'Перевірте пошту — надіслали підтвердження.';
-            } else {
-              msg.textContent = res.error || 'Помилка. Спробуйте ще раз.';
-            }
-          } catch (err) {
-            msg.textContent = 'Помилка. Спробуйте ще раз.';
+          if (res.ok) {
+            form.querySelector('[name="email"]').value = '';
+            msg.textContent = 'Перевір пошту і підтверди підписку.';
+          } else {
+            msg.textContent = res.error === 'invalid_email'
+              ? 'Невірний формат email.'
+              : 'Щось пішло не так. Спробуй ще раз.';
           }
-        };
-        xhr.onerror = function () {
+        })
+        .catch(function () {
           btn.disabled = false;
-          msg.textContent = 'Помилка зʼєднання. Спробуйте ще раз.';
-        };
-        xhr.send(data);
+          msg.textContent = 'Помилка зʼєднання. Спробуй ще раз.';
+        });
       });
     })();
   </script>

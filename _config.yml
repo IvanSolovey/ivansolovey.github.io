@@ -49,10 +49,16 @@ giscus:
   category: "Announcements"
   category_id: "DIC_kwDOSf1Dac4C9PFS"
 
+# --- Email subscription (Google Apps Script Web App URL) ---
+# Fill in after deploying Apps Script (see email-subscription/setup/README.md)
+subscribe_webapp_url: "https://script.google.com/macros/s/AKfycbyI5cH0rajX9NmesArva_VfALtnu3FaxrsXlaM1TsDqe1bv23_wjJWDJwrOjjtLiBUFYA/exec"
+
 # --- Exclude from build ---
 exclude:
   - PLAN.md
   - design-brief.md
+  - brief-for-claude-code.md
+  - email-subscription/
   - Gemfile
   - Gemfile.lock
   - .gitignore

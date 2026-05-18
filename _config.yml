@@ -51,7 +51,7 @@ giscus:
 
 # --- Email subscription (Google Apps Script Web App URL) ---
 # Fill in after deploying Apps Script (see email-subscription/setup/README.md)
-subscribe_webapp_url: "https://script.google.com/macros/s/AKfycbyI5cH0rajX9NmesArva_VfALtnu3FaxrsXlaM1TsDqe1bv23_wjJWDJwrOjjtLiBUFYA/exec"
+subscribe_webapp_url: "https://script.google.com/macros/s/AKfycbzg3OVLREIGWa-k9e41hbNZQ-QD8md8-crI40V2wHeacqoiNIcshoiPloJvB6VC7aavUQ/exec"
 
 # --- Exclude from build ---
 exclude:
